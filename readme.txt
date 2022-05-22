@@ -18,4 +18,10 @@ Espero que sea de agrado!
 - Posibilidad de observar todas las cosas subidas entre usuarios
 - Pequeños cambios de estilos
 
+---- Version 3.0 ----
+
+- Nuevos Estilos
+- Aplicacion de librerias
+
+
 Gracias! .-

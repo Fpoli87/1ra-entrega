@@ -1,9 +1,18 @@
 .divLoguear {
-  margin: 0 25%; }
+  margin: 0 40%; }
 
 #modal-registro {
   width: 80% !important;
   border-top: 2px solid black !important; }
+
+#mensajeLogin {
+  color: red;
+  text-transform: uppercase; }
+
+#logout {
+  width: auto !important;
+  padding: 10px 5px;
+  display: none; }
 
 input[type=text],
 input[type=password] {
@@ -54,7 +63,7 @@ span.psw {
 .ventanamodal {
   display: none;
   position: fixed;
-  z-index: 100;
+  z-index: 1040;
   left: 0;
   top: 0;
   width: 100% !important;
@@ -112,5 +121,79 @@ span.psw {
 .tarjetas {
   justify-content: space-between !important; }
 
+#animalListadoAlta {
+  border: 2px solid red; }
+
+#animalListadoMedia {
+  border: 2px solid orange; }
+
+#animalListadoBaja {
+  border: 2px solid yellow; }
+
 footer {
   background-color: #0a4275; }
+
+.form__grupo-input {
+  position: relative; }
+
+input:focus {
+  border: 3px solid #0075ff !important;
+  outline: none;
+  box-shadow: 3px 0px 30px rgba(163, 163, 163, 0.4); }
+
+.form__input-error {
+  font-size: 12px;
+  margin-bottom: 0;
+  display: none; }
+
+.form__input-error-activo {
+  display: block; }
+
+.form__validacion-estado {
+  position: absolute;
+  right: 10px;
+  bottom: 24px;
+  z-index: 100;
+  font-size: 16px;
+  opacity: 0; }
+
+.formulario__checkbox {
+  margin-right: 10px; }
+
+.formulario__mensaje {
+  height: 45px;
+  line-height: 45px;
+  margin-bottom: 10px;
+  background-color: #f66060;
+  border-radius: 3px;
+  display: none; }
+
+.formulario__mensaje-activo {
+  display: block; }
+
+/* ---- Validacion estilos ---- */
+.formulario__grupo-correcto .form__validacion-estado {
+  color: #1ed12d;
+  opacity: 1; }
+
+.formulario__grupo-incorrecto .formulario__label {
+  color: #bb2929; }
+
+.formulario__grupo-incorrecto .form__validacion-estado {
+  color: #bb2929;
+  opacity: 1; }
+
+.formulario__grupo-incorrecto input {
+  border: 3px solid #bb2929; }
+  .formulario__grupo-incorrecto input:focus {
+    border: 3px solid #bb2929 !important; }
+
+#titulo-revisar {
+  margin-top: 30px;
+  margin-bottom: 20px;
+  padding: 10px 10px;
+  font-size: 3rem; }
+
+#ordenFiltro {
+  background-color: #0a4275;
+  color: white; }

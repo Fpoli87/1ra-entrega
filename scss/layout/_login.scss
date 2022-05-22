@@ -1,8 +1,19 @@
 .divLoguear {
-    margin: 0 25%;
+    margin: 0 40%;
 }
 
 #modal-registro {
     width: 80% !important;
     border-top: 2px solid black !important;
+}
+
+#mensajeLogin {
+    color: red;
+    text-transform: uppercase;
+}
+
+#logout {
+    width: auto !important;
+    padding: 10px 5px;
+    display: none;
 }
