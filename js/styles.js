@@ -251,12 +251,38 @@ function registerForm(){
 
 btnRegistro.onclick = function() {registerForm();}
 
+function alertUsuario() {
+    let timerInterval
+    Swal.fire({
+    title: 'Creando Usuario!',
+    timer: 2000,
+    timerProgressBar: true,
+    didOpen: () => {
+        Swal.showLoading()
+        const b = Swal.getHtmlContainer().querySelector('b')
+        timerInterval = setInterval(() => {
+        b.textContent = Swal.getTimerLeft()
+        }, 100)
+    },
+    willClose: () => {
+        clearInterval(timerInterval)
+    }
+    }).then((result) => {
+    /* Read more about handling dismissals below */
+    if (result.dismiss === Swal.DismissReason.timer) {
+        console.log('I was closed by the timer')
+    }
+    })
+}
+
 
 registroform.addEventListener('submit', (e) => {
     e.preventDefault();
         
     const terminos = document.getElementById('terminos');
 
+        
+    
     if (campos.nombre && campos.usuario && campos.mail && campos.password && terminos.checked){
 
         usuario = new Usuario(
@@ -268,7 +294,7 @@ registroform.addEventListener('submit', (e) => {
         
         Usuarios.push(usuario);
         localStorage.setItem('listadoUsuarios', JSON.stringify(Usuarios));
-        alert('Usuario creado!')
+        alertUsuario();
         registroform.reset()
         document.querySelectorAll('.formulario__grupo-correcto').forEach((icono) => {
             icono.classList.remove('formulario__grupo-correcto');
@@ -403,9 +429,12 @@ function ingreso(){
                     </form>
                   </div>
               </div>
-
-              <div id="ordenFiltro">
+                <br>
+              <div id="ordenFiltro" class="row">
+                <label for="filtro" class="">Ordenar</label>
                 <select name="filtro" class="form-control datosAnimales" id="formPrioridadError">
+                    <option value="tipo">Tipo</option>
+
                     <option value="usuario">Usuario</option>
                 
                     <option value="prioridad">Prioridad</option>

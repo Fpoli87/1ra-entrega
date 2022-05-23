@@ -6,7 +6,7 @@ Hola, bienvenidos una vez más al repositorio que usare para
 hacer la 1er entrega del desafio final del curso 
 JAVASCRIPT en Coderhouse!
 
-Espero que sea de agrado!
+Espero que sea de su agrado!
 
 
 ---- Actualizacion para 2da entrega pryecto final ----
@@ -22,6 +22,10 @@ Espero que sea de agrado!
 
 - Nuevos Estilos
 - Aplicacion de librerias
+
+---- Version 4.0 ----
+
+Incorporado Sweetalert 
 
 
 Gracias! .-
