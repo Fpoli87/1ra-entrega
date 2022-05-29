@@ -18,14 +18,15 @@ window.onclick = function(e) {
 let ErroresLista = JSON.parse(localStorage.getItem('listadoAnimales')) ?? []
 
 class Error {
-    constructor(id, tipo, titulo, detalle, prioridad, usuario, fecha) {
+    constructor(id, tipo, titulo, detalle, prioridad, usuario, fecha, estado) {
         this.id = id;
         this.tipo = tipo;
         this.titulo = titulo;
         this.detalle = detalle;
         this.prioridad = prioridad;
         this.usuario = usuario;
-        this.fecha = fecha
+        this.fecha = fecha;
+        this.estado = estado
     }
 
 }
@@ -41,6 +42,7 @@ ErroresLista.forEach(animalesenArray => {
         <p class="card-text">Detalle: ${animalesenArray.detalle}</p>
         <p class="card-text">Fecha: ${animalesenArray.fecha}</p>
         <p class="card-text">Reportado por: ${animalesenArray.usuario}</p>
+        <p class="card-text">Estado: ${animalesenArray.estado}</p>
     </div>
 </div>
 `
@@ -429,20 +431,7 @@ function ingreso(){
                     </form>
                   </div>
               </div>
-                <br>
-              <div id="ordenFiltro" class="row">
-                <label for="filtro" class="">Ordenar</label>
-                <select name="filtro" class="form-control datosAnimales" id="formPrioridadError">
-                    <option value="tipo">Tipo</option>
-
-                    <option value="usuario">Usuario</option>
                 
-                    <option value="prioridad">Prioridad</option>
-
-                    <option value="fecha">Fecha</option>
-                </select>
-              </div>
-
             </div>
     </div>
 
@@ -460,6 +449,8 @@ function ingreso(){
         `
         listadoDisponible.innerHTML = ``
         ErroresLista.forEach(animalesenArray => {
+
+        
             
             listadoDisponible.innerHTML += `
         
@@ -472,11 +463,41 @@ function ingreso(){
                 <p class="card-text">Detalle: ${animalesenArray.detalle}</p>
                 <p class="card-text">Fecha: ${animalesenArray.fecha}</p>
                 <p class="card-text">Reportado por: ${animalesenArray.usuario}</p>
+                <p class="card-text">Estado: ${animalesenArray.estado}</p>
+                <br>
+                <button class="btnresolver" id="btn-resuelto">Resuelto</button>
             </div>
         </div>
+        
         `
-        });
+        
+    });
+    
+    for (i = 0; i < ErroresLista.length; i++){
+        let btnEliminar = document.getElementById('btn-eliminar');
+        let btnResuelto = document.getElementById('btn-resuelto');
 
+        if (usuarioActual !== ErroresLista[i].usuario) {
+            btnEliminar.style.display = "none";
+            btnResuelto.style.display = "none";
+        } else {
+            btnEliminar.style.display = "block";
+            btnResuelto.style.display = "block";
+        }
+    }
+    
+    
+    let divUbicacion = document.getElementById('geolocal')
+    fetch("http://ipwho.is")
+    .then(respuesta => respuesta.json())
+    .then(data => {
+        let {ip, continent, country, region, city} = data
+        divUbicacion.innerHTML = `
+            <p class="localizador"> Conectado desde Ip: ${ip} - Continente: ${continent} - Pais: ${country} -  Provincia: ${region} - Ciudad: ${city}</p>
+        `  
+    })
+
+    
     
     let formulario = document.getElementById("animal-form");
     
@@ -502,7 +523,8 @@ function ingreso(){
             detalleerror = document.getElementById('formDetalleError').value,
             prioridaderrror = document.getElementById('formPrioridadError').value,
             usuarioanimal = usuarioActivo,
-            fechaerror = Date());
+            fechaerror = Date(),
+            errorresuelto = "En Resolucion");
             
         ErroresLista.push(errores)
         localStorage.setItem('listadoAnimales', JSON.stringify(ErroresLista));
@@ -533,6 +555,9 @@ function ingreso(){
                 <p class="card-text">Detalle: ${animalesenArray.detalle}</p>
                 <p class="card-text">Fecha: ${animalesenArray.fecha}</p>
                 <p class="card-text">Reportado por: ${animalesenArray.usuario}</p>
+                <p class="card-text">Estado: ${animalesenArray.estado}</p>
+                <br>
+                <button class="btnresolver" id="btn-resuelto">Resuelto</button>
             </div>
         </div>
         `
@@ -553,7 +578,25 @@ function logOut () {
     tituloSaludo.innerText = `Bienvenido, Extraño! Revisa nuestra lista de errores reportados. Puedes iniciar sesion para agregar los que detectes!`
     ingresoInicio.style.display = "block";
     btnLogOut.style.display = "none";
-    formListas.innerHTML = ``
+    formListas.innerHTML = ``;
+    listadoDisponible.innerHTML = ``;
+    ErroresLista.forEach(animalesenArray => {
+        listadoDisponible.innerHTML += `
+    <div class="card animalListado m-3" id="animalListado${animalesenArray.prioridad}">
+        <div class="card-body">
+            <h5 class="card-title">ID#${animalesenArray.id}</h5>
+            <p class="card-text">Titulo: ${animalesenArray.titulo}</p>
+            <p class="card-text">Tipo: ${animalesenArray.tipo}</p>
+            <p class="card-text">Prioridad: ${animalesenArray.prioridad}</p>
+            <p class="card-text">Detalle: ${animalesenArray.detalle}</p>
+            <p class="card-text">Fecha: ${animalesenArray.fecha}</p>
+            <p class="card-text">Reportado por: ${animalesenArray.usuario}</p>
+            <p class="card-text">Estado: ${animalesenArray.estado}</p>
+        </div>
+    </div>
+    `
+    });
+    
 }
 
 

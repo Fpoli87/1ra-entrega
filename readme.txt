@@ -27,5 +27,8 @@ Espero que sea de su agrado!
 
 Incorporado Sweetalert 
 
+---- Version 5.0 ----
+
+Incorporacion API Geolocalizacion para cada usuario que se conecta
 
 Gracias! .-

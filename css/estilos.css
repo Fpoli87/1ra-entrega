@@ -1,6 +1,14 @@
 .divLoguear {
   margin: 0 40%; }
 
+#geolocal {
+  background-color: black;
+  color: white;
+  width: 100%; }
+  #geolocal .localizador {
+    margin-left: 15%;
+    font-size: 20px; }
+
 #modal-registro {
   width: 80% !important;
   border-top: 2px solid black !important; }
