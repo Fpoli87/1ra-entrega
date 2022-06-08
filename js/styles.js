@@ -1,10 +1,9 @@
 
-
 //Modal
 
 let modal = document.getElementById('id01');
 
-// Cerrar
+// Cerrar Modal
 window.onclick = function(e) {
     if (e.target == modal) {
         modal.style.display = "none";
@@ -13,7 +12,7 @@ window.onclick = function(e) {
     }
 }
 
-//Formacion de los objetos y sus propiedades dentro del array
+//Formacion de los objetos y sus propiedades dentro del array de errores
 
 let ErroresLista = JSON.parse(localStorage.getItem('listadoAnimales')) ?? []
 
@@ -31,9 +30,11 @@ class Error {
 
 }
 
+// Carga listado de Errores sin loguearse
+
 ErroresLista.forEach(animalesenArray => {
     listadoDisponible.innerHTML += `
-<div class="card animalListado m-3" id="animalListado${animalesenArray.prioridad}">
+<div class="card animalListado animalListado${animalesenArray.prioridad} m-3" id="animalListado${animalesenArray.id}">
     <div class="card-body">
         <h5 class="card-title">ID#${animalesenArray.id}</h5>
         <p class="card-text">Titulo: ${animalesenArray.titulo}</p>
@@ -47,6 +48,48 @@ ErroresLista.forEach(animalesenArray => {
 </div>
 `
 });
+
+
+
+//Formacion de los objetos y sus propiedades dentro del array de resueltos
+
+let ResueltosLista = JSON.parse(localStorage.getItem('listaResuelta')) ?? []
+
+class Resuelto {
+    constructor(id, tipo, titulo, detalle, prioridad, usuario, fecha, estado) {
+        this.id = id;
+        this.tipo = tipo;
+        this.titulo = titulo;
+        this.detalle = detalle;
+        this.prioridad = prioridad;
+        this.usuario = usuario;
+        this.fecha = fecha;
+        this.estado = estado
+    }
+
+}
+
+// Carga Inicial Errores resueltos
+
+let listadoListo = document.getElementById("listadoResuelto")
+
+    ResueltosLista.forEach(resueltoenArray => {
+    listadoListo.innerHTML += `
+        <div class="card animalListado-Resuelto animalListado${resueltoenArray.prioridad} m-3" id="animalListado${resueltoenArray.id}">
+            <div class="card-body">
+                <h5 class="card-title">ID#${resueltoenArray.id}</h5>
+                <p class="card-text">Titulo: ${resueltoenArray.titulo}</p>
+                <p class="card-text">Tipo: ${resueltoenArray.tipo}</p>
+                <p class="card-text">Prioridad: ${resueltoenArray.prioridad}</p>
+                <p class="card-text">Detalle: ${resueltoenArray.detalle}</p>
+                <p class="card-text">Fecha: ${resueltoenArray.fecha}</p>
+                <p class="card-text">Reportado por: ${resueltoenArray.usuario}</p>
+                <p class="card-text">Estado: ${resueltoenArray.estado}</p>
+                        
+            </div>
+        </div>
+        `
+    });
 
 // Variables para login y registracion
 
@@ -270,7 +313,7 @@ function alertUsuario() {
         clearInterval(timerInterval)
     }
     }).then((result) => {
-    /* Read more about handling dismissals below */
+    
     if (result.dismiss === Swal.DismissReason.timer) {
         console.log('I was closed by the timer')
     }
@@ -317,7 +360,7 @@ registroform.addEventListener('submit', (e) => {
     
 })
 
-// funcion login
+// Funcion login
 let usuarioActual;
 
 function validarCredenciales (usuario, pass) {
@@ -334,6 +377,8 @@ function validarCredenciales (usuario, pass) {
             
             usuarioActivo = Usuarios[usuarioActual].nombre
             saludar(usuarioActivo);
+            registro.innerHTML = ``;
+            mensajeLogin.innerHTML = ``;
         } 
     }
 
@@ -344,8 +389,6 @@ function validarCredenciales (usuario, pass) {
     return acceso;
     
 }
-
-console.log(usuarioActual)
 
 function saludar(usuario){
     let tituloSaludo = document.getElementById("titulo-revisar")
@@ -384,6 +427,7 @@ loginform.addEventListener('submit', (e) => {
 const t = 1
 function ingreso(){
 
+    registro.innerHTML = ``
     formListas.innerHTML = `
     <div class="row">
             <div class="col-lg-12">
@@ -447,15 +491,17 @@ function ingreso(){
         </div>
     </div>
         `
+    let ErroresLista = JSON.parse(localStorage.getItem('listadoAnimales')) ?? []
+    let y = -1;
         listadoDisponible.innerHTML = ``
         ErroresLista.forEach(animalesenArray => {
 
-        
-            
+            y++
             listadoDisponible.innerHTML += `
         
-        <div class="card animalListado m-3" id="animalListado${animalesenArray.prioridad}">
+        <div class="card animalListado animalListado${animalesenArray.prioridad} m-3" id="animalListado${y}">
             <div class="card-body">
+                <span onclick=borrar(${y}) class="close btneliminar" id="btn-eliminar">&times;</span>
                 <h5 class="card-title">ID#${animalesenArray.id}</h5>
                 <p class="card-text">Titulo: ${animalesenArray.titulo}</p>
                 <p class="card-text">Tipo: ${animalesenArray.tipo}</p>
@@ -465,12 +511,38 @@ function ingreso(){
                 <p class="card-text">Reportado por: ${animalesenArray.usuario}</p>
                 <p class="card-text">Estado: ${animalesenArray.estado}</p>
                 <br>
-                <button class="btnresolver" id="btn-resuelto">Resuelto</button>
+                <button class="btnresolver" onclick=resolver(${y}) id="btn-resuelto">Resuelto</button>
+                <br>
+
             </div>
         </div>
         
         `
         
+    });
+
+    let ResueltosLista = JSON.parse(localStorage.getItem('listaResuelta')) ?? []
+    y = -1;
+    let listadoListo = document.getElementById("listadoResuelto")
+    listadoListo.innerHTML = ''
+    ResueltosLista.forEach(resueltoenArray => {
+    y++
+    listadoListo.innerHTML += `
+        <div class="card animalListado-Resuelto animalListado${resueltoenArray.prioridad} m-3" id="animalListado${y}">
+            <div class="card-body">
+                <span onclick=borrar2(${y}) class="close btneliminar" id="btn-eliminar">&times;</span>
+                <h5 class="card-title">ID#${resueltoenArray.id}</h5>
+                <p class="card-text">Titulo: ${resueltoenArray.titulo}</p>
+                <p class="card-text">Tipo: ${resueltoenArray.tipo}</p>
+                <p class="card-text">Prioridad: ${resueltoenArray.prioridad}</p>
+                <p class="card-text">Detalle: ${resueltoenArray.detalle}</p>
+                <p class="card-text">Fecha: ${resueltoenArray.fecha}</p>
+                <p class="card-text">Reportado por: ${resueltoenArray.usuario}</p>
+                <p class="card-text">Estado: ${resueltoenArray.estado}</p>
+                        
+            </div>
+        </div>
+        `
     });
     
     for (i = 0; i < ErroresLista.length; i++){
@@ -497,8 +569,7 @@ function ingreso(){
         `  
     })
 
-    
-    
+  
     let formulario = document.getElementById("animal-form");
     
     function generarUUID() {
@@ -541,13 +612,16 @@ function ingreso(){
             },
             onClick: function(){} // Callback after click
           }).showToast();
-    
+          
+        let y = -1;
         let listadoDisponible = document.getElementById("listadoDisponible")
         listadoDisponible.innerHTML = ''
         ErroresLista.forEach(animalesenArray => {
-            listadoDisponible.innerHTML += `
-        <div class="card animalListado m-3" id="animalListado${animalesenArray.prioridad}">
+        y++
+        listadoDisponible.innerHTML += `
+        <div class="card animalListado animalListado${animalesenArray.prioridad} m-3" id="animalListado${y}">
             <div class="card-body">
+                <span onclick=borrar(${y}) class="close btneliminar" id="btn-eliminar">&times;</span>
                 <h5 class="card-title">ID#${animalesenArray.id}</h5>
                 <p class="card-text">Titulo: ${animalesenArray.titulo}</p>
                 <p class="card-text">Tipo: ${animalesenArray.tipo}</p>
@@ -557,7 +631,9 @@ function ingreso(){
                 <p class="card-text">Reportado por: ${animalesenArray.usuario}</p>
                 <p class="card-text">Estado: ${animalesenArray.estado}</p>
                 <br>
-                <button class="btnresolver" id="btn-resuelto">Resuelto</button>
+                <button class="btnresolver" onclick=resolver(${y}) id="btn-resuelto">Resuelto</button>
+                <br>
+
             </div>
         </div>
         `
@@ -577,12 +653,15 @@ function logOut () {
     
     tituloSaludo.innerText = `Bienvenido, Extraño! Revisa nuestra lista de errores reportados. Puedes iniciar sesion para agregar los que detectes!`
     ingresoInicio.style.display = "block";
+    let divUbicacion = document.getElementById('geolocal')
+    divUbicacion.innerHTML = ``
     btnLogOut.style.display = "none";
     formListas.innerHTML = ``;
     listadoDisponible.innerHTML = ``;
+    let ErroresLista = JSON.parse(localStorage.getItem('listadoAnimales')) ?? []
     ErroresLista.forEach(animalesenArray => {
         listadoDisponible.innerHTML += `
-    <div class="card animalListado m-3" id="animalListado${animalesenArray.prioridad}">
+        <div class="card animalListado animalListado${animalesenArray.prioridad} m-3" id="animalListado${animalesenArray.id}">
         <div class="card-body">
             <h5 class="card-title">ID#${animalesenArray.id}</h5>
             <p class="card-text">Titulo: ${animalesenArray.titulo}</p>
@@ -597,7 +676,184 @@ function logOut () {
     `
     });
     
+    let ResueltosLista = JSON.parse(localStorage.getItem('listaResuelta')) ?? []
+    let listadoListo = document.getElementById("listadoResuelto")
+    listadoListo.innerHTML = ``
+    ResueltosLista.forEach(resueltoenArray => {
+    listadoListo.innerHTML += `
+        <div class="card animalListado-Resuelto animalListado${resueltoenArray.prioridad} m-3" id="animalListado${resueltoenArray.id}">
+            <div class="card-body">
+                <h5 class="card-title">ID#${resueltoenArray.id}</h5>
+                <p class="card-text">Titulo: ${resueltoenArray.titulo}</p>
+                <p class="card-text">Tipo: ${resueltoenArray.tipo}</p>
+                <p class="card-text">Prioridad: ${resueltoenArray.prioridad}</p>
+                <p class="card-text">Detalle: ${resueltoenArray.detalle}</p>
+                <p class="card-text">Fecha: ${resueltoenArray.fecha}</p>
+                <p class="card-text">Reportado por: ${resueltoenArray.usuario}</p>
+                <p class="card-text">Estado: ${resueltoenArray.estado}</p>
+                        
+            </div>
+        </div>
+        `
+    });
+
+    
 }
+
+//Funcion Borrar
+function borrar(i){
+    ErroresLista.splice(i,1);
+
+    let y = -1;
+    listadoDisponible.innerHTML = ``
+    ErroresLista.forEach(animalesenArray => {
+
+        y++
+        listadoDisponible.innerHTML += `
+    
+        <div class="card animalListado animalListado${animalesenArray.prioridad} m-3" id="animalListado${y}">
+            <div class="card-body">
+                <span onclick=borrar(${y}) class="close btneliminar" id="btn-eliminar">&times;</span>
+                <h5 class="card-title">ID#${animalesenArray.id}</h5>
+                <p class="card-text">Titulo: ${animalesenArray.titulo}</p>
+                <p class="card-text">Tipo: ${animalesenArray.tipo}</p>
+                <p class="card-text">Prioridad: ${animalesenArray.prioridad}</p>
+                <p class="card-text">Detalle: ${animalesenArray.detalle}</p>
+                <p class="card-text">Fecha: ${animalesenArray.fecha}</p>
+                <p class="card-text">Reportado por: ${animalesenArray.usuario}</p>
+                <p class="card-text">Estado: ${animalesenArray.estado}</p>
+                <br>
+                <button class="btnresolver" onclick=resolver(${y}) id="btn-resuelto">Resuelto</button>
+                <br>
+            </div>
+        </div>
+        
+      `
+    })
+    localStorage.setItem('listadoAnimales', JSON.stringify(ErroresLista));
+
+}
+
+//Funcion Borrar2
+function borrar2(i){
+    ResueltosLista.splice(i,1);
+
+    let y = -1;
+    listadoListo.innerHTML = ``
+    ResueltosLista.forEach(resueltoenArray => {
+        y++
+        listadoListo.innerHTML += `
+            <div class="card animalListado-Resuelto animalListado${resueltoenArray.prioridad} m-3" id="animalListado${y}">
+                <div class="card-body">
+                    <span onclick=borrar2(${y}) class="close btneliminar" id="btn-eliminar">&times;</span>
+                    <h5 class="card-title">ID#${resueltoenArray.id}</h5>
+                    <p class="card-text">Titulo: ${resueltoenArray.titulo}</p>
+                    <p class="card-text">Tipo: ${resueltoenArray.tipo}</p>
+                    <p class="card-text">Prioridad: ${resueltoenArray.prioridad}</p>
+                    <p class="card-text">Detalle: ${resueltoenArray.detalle}</p>
+                    <p class="card-text">Fecha: ${resueltoenArray.fecha}</p>
+                    <p class="card-text">Reportado por: ${resueltoenArray.usuario}</p>
+                    <p class="card-text">Estado: ${resueltoenArray.estado}</p>
+                            
+                </div>
+            </div>
+            `
+        });
+        localStorage.setItem('listaResuelta', JSON.stringify(ResueltosLista));
+
+}
+
+
+//Funcion Resolver
+
+function resolver(i){
+
+    let ErroresLista = JSON.parse(localStorage.getItem('listadoAnimales')) ?? []
+    resueltos = new Resuelto(
+    
+        ideresuelto = JSON.parse(JSON.stringify(ErroresLista[i].id)),
+        tiporesuelto = JSON.parse(JSON.stringify(ErroresLista[i].tipo)),
+        tituloresuelto = JSON.parse(JSON.stringify(ErroresLista[i].titulo)),
+        detalleresuelto = JSON.parse(JSON.stringify(ErroresLista[i].detalle)),
+        prioridadresuelto = JSON.parse(JSON.stringify(ErroresLista[i].prioridad)),
+        usuarioanimal = JSON.parse(JSON.stringify(ErroresLista[i].usuario)),
+        fechaerror = JSON.parse(JSON.stringify(ErroresLista[i].fecha)),
+        errorresuelto = "Resuelto");
+        
+    ResueltosLista.push(resueltos)
+    localStorage.setItem('listaResuelta', JSON.stringify(ResueltosLista));
+
+    let y = -1;
+    let listadoListo = document.getElementById("listadoResuelto")
+    listadoListo.innerHTML = ''
+    ResueltosLista.forEach(resueltoenArray => {
+    y++
+    listadoListo.innerHTML += `
+        <div class="card animalListado-Resuelto animalListado${resueltoenArray.prioridad} m-3" id="animalListado${y}">
+            <div class="card-body">
+                <span onclick=borrar2(${y}) class="close btneliminar" id="btn-eliminar">&times;</span>
+                <h5 class="card-title">ID#${resueltoenArray.id}</h5>
+                <p class="card-text">Titulo: ${resueltoenArray.titulo}</p>
+                <p class="card-text">Tipo: ${resueltoenArray.tipo}</p>
+                <p class="card-text">Prioridad: ${resueltoenArray.prioridad}</p>
+                <p class="card-text">Detalle: ${resueltoenArray.detalle}</p>
+                <p class="card-text">Fecha: ${resueltoenArray.fecha}</p>
+                <p class="card-text">Reportado por: ${resueltoenArray.usuario}</p>
+                <p class="card-text">Estado: ${resueltoenArray.estado}</p>
+                        
+            </div>
+        </div>
+        `
+    });
+
+    ErroresLista.splice(i,1);
+    y = -1;
+    listadoDisponible.innerHTML = ``
+    ErroresLista.forEach(animalesenArray => {
+
+        y++
+        listadoDisponible.innerHTML += `
+    
+        <div class="card animalListado animalListado${animalesenArray.prioridad} m-3" id="animalListado${y}">
+            <div class="card-body">
+                <span onclick=borrar(${y}) class="close btneliminar" id="btn-eliminar">&times;</span>
+                <h5 class="card-title">ID#${animalesenArray.id}</h5>
+                <p class="card-text">Titulo: ${animalesenArray.titulo}</p>
+                <p class="card-text">Tipo: ${animalesenArray.tipo}</p>
+                <p class="card-text">Prioridad: ${animalesenArray.prioridad}</p>
+                <p class="card-text">Detalle: ${animalesenArray.detalle}</p>
+                <p class="card-text">Fecha: ${animalesenArray.fecha}</p>
+                <p class="card-text">Reportado por: ${animalesenArray.usuario}</p>
+                <p class="card-text">Estado: ${animalesenArray.estado}</p>
+                <br>
+                <button class="btnresolver" onclick=resolver(${y}) id="btn-resuelto">Resuelto</button>
+                <br>
+            </div>
+        </div>
+        
+      `
+    })
+    localStorage.setItem('listadoAnimales', JSON.stringify(ErroresLista));
+    Toastify({
+        text: "Error Resuelto",
+        duration: 3000,
+        close: true,
+        gravity: "top", 
+        position: "right", 
+        stopOnFocus: true, 
+        style: {
+            
+          background: "linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 31%, rgba(0,212,255,1) 100%)",
+        },
+        onClick: function(){} // Callback after click
+      }).showToast();
+
+    
+}
+
+
+
+
 
 
 

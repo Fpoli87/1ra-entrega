@@ -22,14 +22,22 @@
 
 }
 
-#animalListadoAlta {
-    border: 2px solid red;
+#btn-resuelto, #btn-eliminar {
+    display: block !important;
 }
 
-#animalListadoMedia {
-    border: 2px solid orange;
+.animalListadoAlta {
+    border: 2px solid red !important;
 }
 
-#animalListadoBaja {
-    border: 2px solid yellow;
+.animalListadoMedia {
+    border: 2px solid orange !important;
+}
+
+.animalListadoBaja {
+    border: 2px solid yellow !important;
+}
+
+.animalListado-Resuelto {
+    border: 2px solid rgb(12, 205, 12) !important;
 }

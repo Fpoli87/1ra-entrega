@@ -142,14 +142,20 @@ span.psw {
 .tarjetas {
   justify-content: space-between !important; }
 
-#animalListadoAlta {
-  border: 2px solid red; }
+#btn-resuelto, #btn-eliminar {
+  display: block !important; }
 
-#animalListadoMedia {
-  border: 2px solid orange; }
+.animalListadoAlta {
+  border: 2px solid red !important; }
 
-#animalListadoBaja {
-  border: 2px solid yellow; }
+.animalListadoMedia {
+  border: 2px solid orange !important; }
+
+.animalListadoBaja {
+  border: 2px solid yellow !important; }
+
+.animalListado-Resuelto {
+  border: 2px solid #0ccd0c !important; }
 
 footer {
   background-color: #0a4275; }

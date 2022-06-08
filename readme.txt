@@ -25,10 +25,14 @@ Espero que sea de su agrado!
 
 ---- Version 4.0 ----
 
-Incorporado Sweetalert 
+-Incorporado Sweetalert 
 
 ---- Version 5.0 ----
 
-Incorporacion API Geolocalizacion para cada usuario que se conecta
+-Incorporacion API Geolocalizacion para cada usuario que se conecta
+
+---- Version 6.0 ----
+
+-Optimizacion en el manejo de los arrays
 
 Gracias! .-
